@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,6 +43,7 @@ public class Reply {
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @Builder
     public Reply(Integer id, String comment, User user, Board board, Timestamp createdAt) {
         this.id = id;
         this.comment = comment;
