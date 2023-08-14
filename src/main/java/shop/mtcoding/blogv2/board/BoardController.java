@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+//컨트롤러의 책임: 요청처리 (유효성검사 등도 요청처리에 포함) 
 @Controller
 public class BoardController {
     @Autowired

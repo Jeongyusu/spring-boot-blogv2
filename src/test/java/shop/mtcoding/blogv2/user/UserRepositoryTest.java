@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 public class UserRepositoryTest {
-
+    // DI할 때 타입으로 찾음 => 싱글톤 패턴이기 때문
     @Autowired
     private UserRepository userRepository;
 
