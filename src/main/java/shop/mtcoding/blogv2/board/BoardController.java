@@ -1,6 +1,11 @@
 package shop.mtcoding.blogv2.board;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +18,10 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping("/")
-    public String index(@RequestParam(defaultValue = "0") Integer page) {
-        boardService.게시글목록보기();
+    public String index(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
+        Page<Board> boardPG = boardService.게시글목록보기(page);
+        request.setAttribute("boardPG", boardPG);
+        boardService.게시글목록보기(page);
         return "index";
     }
 
