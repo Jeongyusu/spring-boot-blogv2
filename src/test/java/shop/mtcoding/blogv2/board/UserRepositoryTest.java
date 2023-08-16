@@ -22,12 +22,14 @@ public class UserRepositoryTest {
 
     @Test
     public void update_test() {
-        User user = userRepository.findById(1).get();
-        // User user = User.builder().id(1).password("5678").build();
-        user.setPassword("5678");
-        System.out.println(user.getPassword());
+        // User user = userRepository.findById(1).get();
+        User user = User.builder().username("ppp").password("1234").email("222@naver.com").build();
+        // user.setPassword("5678");
+        em.persist(user);
+        // System.out.println(user.getPassword());
+        user.setPassword("8888");
+        // System.out.println(user.getPassword());
         em.flush();
-
     }
 
     @Test
