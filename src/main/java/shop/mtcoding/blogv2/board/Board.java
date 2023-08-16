@@ -13,6 +13,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +37,7 @@ public class Board {
     @Column(nullable = true, length = 10000)
     private String content;
 
-    @ManyToOne(fetch = FetchType.EAGER) // LAZY는 페치를 하지 않는 것. EAGER은 페치를 하겠다는 것(디폴트 값)
+    @ManyToOne(fetch = FetchType.LAZY) // LAZY는 페치를 하지 않는 것. EAGER은 페치를 하겠다는 것(디폴트 값)
     private User user;
 
     @CreationTimestamp

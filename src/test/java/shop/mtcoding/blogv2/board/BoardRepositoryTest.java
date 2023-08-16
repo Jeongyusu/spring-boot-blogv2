@@ -43,6 +43,7 @@ public class BoardRepositoryTest {
         Pageable pageable = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
         Page<Board> boardPG = boardRepository.findAll(pageable);
         ObjectMapper om = new ObjectMapper();
+        // ObjectMapper는 boardPG객체의 getter를 호출하면서 json을 만든다.
         String json = om.writeValueAsString(boardPG);
         System.out.println(json);
     }

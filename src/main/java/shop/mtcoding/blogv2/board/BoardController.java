@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //컨트롤러의 책임: 요청처리 (유효성검사 등도 요청처리에 포함) 
 @Controller
@@ -21,8 +22,21 @@ public class BoardController {
     public String index(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
         Page<Board> boardPG = boardService.게시글목록보기(page);
         request.setAttribute("boardPG", boardPG);
-        boardService.게시글목록보기(page);
+        request.setAttribute("prevPage", boardPG.getNumber() - 1);
+        request.setAttribute("nextPage", boardPG.getNumber() + 1);
         return "index";
+
+        // BoardResponse.ListDTO listDTO = new BoardResponse.ListDTO();
+        // listDTO.setPage(boardPG);
+        // listDTO.setPrevPage(boardPG.getNumber() - 1);
+        // listDTO.setNextPage(boardPG.getNumber() + 1);
+    }
+
+    @GetMapping("/test")
+    public @ResponseBody Page<Board> test(@RequestParam(defaultValue = "0") Integer page) {
+        Page<Board> boardPG = boardService.게시글목록보기(page);
+        return boardPG;
+
     }
 
     @GetMapping("/board/saveForm")
