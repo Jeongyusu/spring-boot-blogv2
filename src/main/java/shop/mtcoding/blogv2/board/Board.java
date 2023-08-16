@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.dynamic.TypeResolutionStrategy.Lazy;
 import shop.mtcoding.blogv2.user.User;
 
 @NoArgsConstructor
@@ -33,7 +35,7 @@ public class Board {
     @Column(nullable = true, length = 10000)
     private String content;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER) // LAZY는 페치를 하지 않는 것. EAGER은 페치를 하겠다는 것(디폴트 값)
     private User user;
 
     @CreationTimestamp

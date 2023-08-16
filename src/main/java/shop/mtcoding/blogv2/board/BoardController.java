@@ -4,12 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 //컨트롤러의 책임: 요청처리 (유효성검사 등도 요청처리에 포함) 
 @Controller
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
+    @GetMapping("/")
+    public String index(@RequestParam(defaultValue = "0") Integer page) {
+        boardService.게시글목록보기();
+        return "index";
+    }
 
     @GetMapping("/board/saveForm")
     public String saveForm() {
