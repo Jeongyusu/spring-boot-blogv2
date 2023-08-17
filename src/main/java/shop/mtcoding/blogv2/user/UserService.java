@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
+
 
 //핵심로직 처리, 트랜잭션 관리, 예외처리
 @Service
@@ -23,6 +25,22 @@ public class UserService {
         
         userRepository.save(user); //em.persist
 
+    }
+
+    public User 로그인(UserRequest.LoginDTO loginDTO) {
+        User user = userRepository.findByUsername(loginDTO.getUsername());
+        
+        // 1. 유저네임 검증
+        if (user == null) {
+            return null;
+        }
+        
+        // 2. 패스워드 검증
+        if (!user.getPassword().equals(loginDTO.getPasswrod())) {
+            return null;
+        }
+        // 3. 로그인 성공
+        return user;
     }
 
 }
