@@ -1,6 +1,7 @@
 package shop.mtcoding.blogv2.board;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
 import shop.mtcoding.blogv2.user.User;
 
 /* 1. 비지니스 로직 처리(핵심 로직)
@@ -41,4 +44,35 @@ public class BoardService {
         // 보드만 가져오면 된다.
         return boardRepository.findById(id).get();
     }
+
+    @Transactional
+    public void 게시글수정하기(BoardRequest.UpdateDTO updateDTO, Integer boardId) {
+        Optional<Board> boardOP = boardRepository.findById(boardId);
+        if (boardOP.isPresent()) {
+            Board board = boardOP.get();
+            board.setTitle(updateDTO.getTitle());
+            board.setContent(updateDTO.getContent());
+            boardRepository.save(board);
+        }
+
+        // Board board = boardRepository.findById(boardId).get();
+        // board.setTitle(updateDTO.getTitle());
+        // board.setContent(updateDTO.getContent());
+        // boardRepository.save(board);
+    }
+
+    public Board 업데이트폼(Integer boardId) {
+        return boardRepository.findById(boardId).get();
+
+    }
+
+    @Transactional
+    public void 삭제(Integer boardId) {
+        try {
+            boardRepository.deleteById(6);
+        } catch (Exception e) {
+            throw new RuntimeException("6번은 없어요");
+        }
+    }
+
 }

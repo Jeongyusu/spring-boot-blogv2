@@ -25,6 +25,11 @@ public class BoardRepositoryTest {
     private BoardRepository boardRepository;
 
     @Test
+    public void deleteById_test() {
+        boardRepository.deleteById(6);
+    }
+
+    @Test
     public void MfindBy_test() {
         boardRepository.MFindById(5);
     }

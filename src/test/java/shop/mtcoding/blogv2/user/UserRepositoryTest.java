@@ -19,7 +19,7 @@ public class UserRepositoryTest {
 
     @Test
     public void update_test() {
-        User user = userRepository.findById(1).get();
+        User user = userRepository.findById(3).get();
         // User user = User.builder().id(1).password("5678").build();
         user.setPassword("5678");
         userRepository.save(user);

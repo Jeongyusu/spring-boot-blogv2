@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import shop.mtcoding.blogv2._core.util.Script;
+import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
+
 //컨트롤러의 책임: 요청처리 (유효성검사 등도 요청처리에 포함) 
 @Controller
 public class BoardController {
@@ -45,7 +48,6 @@ public class BoardController {
     public @ResponseBody Page<Board> test(@RequestParam(defaultValue = "0") Integer page) {
         Page<Board> boardPG = boardService.게시글목록보기(page);
         return boardPG;
-
     }
 
     @GetMapping("/board/saveForm")
@@ -63,4 +65,27 @@ public class BoardController {
         boardService.글쓰기(saveDTO, 1);
         return "redirect:/";
     }
+
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
+        // 1)where데이터, 2)body, 3)session값 순서로 매개변수 순서 컨벤션
+        boardService.게시글수정하기(updateDTO, id);
+        return "redirect:/board" + id;
+    }
+
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable Integer id, Model model) {
+        Board board = boardService.업데이트폼(id);
+        model.addAttribute("board", board);
+        return "/board/updateForm";
+    }
+
+    @PostMapping("/board/{id}/delete")
+    public @ResponseBody String delete(@PathVariable Integer id) {
+        // 인증체크
+        boardService.삭제(id);
+        return Script.href("/");
+
+    }
+
 }
