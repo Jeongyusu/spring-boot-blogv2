@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     @Query(value = "select * from user_tb where username = :username", nativeQuery = true)
     User findByUsername(@Param("username") String name);
 
-    @Modifying
+    @Modifying // executeUpdate
     @Query(value = "insert into user_tb(created_at, email, password, username) values(now(), :email, :password, :username)", nativeQuery = true)
     void mSave(@Param("username") String username, @Param("password") String password, @Param("email") String email);
 

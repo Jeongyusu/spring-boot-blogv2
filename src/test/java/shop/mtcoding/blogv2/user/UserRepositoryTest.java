@@ -1,4 +1,4 @@
-package shop.mtcoding.blogv2.board;
+package shop.mtcoding.blogv2.user;
 
 import java.util.Optional;
 
