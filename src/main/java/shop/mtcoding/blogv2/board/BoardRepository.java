@@ -3,7 +3,7 @@ package shop.mtcoding.blogv2.board;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,5 +20,8 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
     // fetch를 붙여야 *를 한다. (전체를 프로젝션)
     @Query("select b from Board b join fetch b.user")
     List<Board> mfindAll();
+
+    @Query("select b from Board b join fetch b.user where b.id = :id")
+    Board MFindById(@Param("id") Integer id);
 
 }

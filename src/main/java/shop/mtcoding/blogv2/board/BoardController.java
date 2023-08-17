@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BoardController {
     @Autowired
     private BoardService boardService;
+
+    @GetMapping("/board/{id}")
+    public String detail(@PathVariable Integer id, Model model) {
+        Board board = boardService.상세보기(id); // 엔티티 노출하는 것은 별로 좋지 않음. 나중에 DTO에 옮겨주는 것이 필요
+        model.addAttribute("board", board);
+        return "board/detail";
+    }
 
     @GetMapping("/")
     public String index(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
