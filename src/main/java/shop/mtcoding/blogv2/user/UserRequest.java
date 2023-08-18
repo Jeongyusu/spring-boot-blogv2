@@ -17,7 +17,12 @@ public class UserRequest {
     @Setter
     public static class LoginDTO {
         private String username;
-        private String passwrod;
+        private String password;
     }
     
+    @Getter
+    @Setter
+    public static class UpdateDTO {
+        private String password;
+    }
 }

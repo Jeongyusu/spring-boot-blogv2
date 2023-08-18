@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
     User mFindById(@Param("id") Integer id);
 
     @Query(value = "select * from user_tb where username = :username", nativeQuery = true)
-    User findByUsername(@Param("username") String name);
+    User findByUsername(@Param("username") String username);
 
     @Modifying // executeUpdate
     @Query(value = "insert into user_tb(created_at, email, password, username) values(now(), :email, :password, :username)", nativeQuery = true)
