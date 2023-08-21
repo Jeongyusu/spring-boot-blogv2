@@ -14,12 +14,16 @@ public class BoardService {
 
     public void 글쓰기(BoardRequest.SaveDTO saveDTO, int sessionUserId) {
         Board board = Board.builder()
-            .title(saveDTO.getTitle())
-            .content(saveDTO.getContent())
-            .user(User.builder().id(sessionUserId).build())
-            .build();
+                .title(saveDTO.getTitle())
+                .content(saveDTO.getContent())
+                .user(User.builder().id(sessionUserId).build())
+                .build();
 
-            boardRepository.save(board);
+        boardRepository.save(board);
+    }
+
+    public void 게시글목록보기(Integer page) {
+        boardRepository.findAll();
     }
 
 }

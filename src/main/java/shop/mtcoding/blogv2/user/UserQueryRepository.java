@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserQueryRepository {
-    
+
     @Autowired
     private EntityManager em;
 
@@ -16,10 +16,14 @@ public class UserQueryRepository {
         em.persist(user);
     }
 
-    public User findById(Integer id){
-      return em.find(User.class, id);
-        
+    public User findById(Integer id) {
+        return em.find(User.class, id);
 
     }
-    
+
+    public User findByUsername(String username) {
+        Query query = em.createQuery("select u from User u where u.username = :usernmae", User.class);
+        query.setParameter("username", username);
+        return (User) query.getSingleResult();
+    }
 }
