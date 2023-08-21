@@ -42,7 +42,12 @@ public class BoardService {
 
     public Board 상세보기(Integer id) {
         // 보드만 가져오면 된다.
-        return boardRepository.findById(id).get();
+        try {
+            return boardRepository.findById(id).get();
+        } catch (Exception e) {
+            throw new RuntimeException("에러가 발생했습니다");
+        }
+
     }
 
     @Transactional

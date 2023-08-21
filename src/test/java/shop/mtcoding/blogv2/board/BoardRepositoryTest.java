@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -24,9 +26,13 @@ public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    EntityManager em;
+
     @Test
     public void deleteById_test() {
-        boardRepository.deleteById(6);
+        boardRepository.deleteById(2);
+
     }
 
     @Test
