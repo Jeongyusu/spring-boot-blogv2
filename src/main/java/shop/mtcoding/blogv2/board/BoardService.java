@@ -42,12 +42,13 @@ public class BoardService {
 
     public Board 상세보기(Integer id) {
         // 보드만 가져오면 된다.
-        try {
-            return boardRepository.findById(id).get();
-        } catch (Exception e) {
-            throw new RuntimeException("에러가 발생했습니다");
-        }
 
+        Optional<Board> boardOP = boardRepository.mFindByIdJoinRepliesInUser(id);
+        if (boardOP.isPresent()) {
+            return boardOP.get();
+        } else {
+            throw new RuntimeException(id + "는 찾을 수 없습니다");
+        }
     }
 
     @Transactional

@@ -43,9 +43,7 @@ public class BoardRepositoryTest {
     @Test
     public void findById_test() {
         Optional<Board> boardOP = boardRepository.findById(5);
-        if (boardOP.isPresent()) {
-            System.out.println("테스트 : board가 있습니다.");
-        }
+
     }
 
     @Test
@@ -91,6 +89,23 @@ public class BoardRepositoryTest {
         // 영속성 객체
         boardRepository.save(board); // insert가 자동으로 실행되고 영속화가 이루어진다. 그리고 데이터가 DB와 동기화된다.
         System.out.println(board.getId()); // 이 단계에서는 board는 영속성객체
+
+    }
+
+    @Test
+    public void mFindByIdJoinUserAndReplies_test() {
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(1).get();
+        System.out.println("board : id : " + board.getId());
+        System.out.println("board : title : " + board.getTitle());
+        System.out.println("board : content : " + board.getContent());
+        System.out.println("board : created_at : " + board.getCreatedAt());
+        System.out.println("======================");
+        board.getReplies().stream().forEach(r -> {
+            System.out.println("board in replies : id : " + r.getId());
+            System.out.println("board in replies in user : comment : " + r.getComment());
+            System.out.println("board in replies in user : id : " + r.getUser().getId());
+            System.out.println("board in replies in user : username : " + r.getUser().getUsername());
+        });
 
     }
 

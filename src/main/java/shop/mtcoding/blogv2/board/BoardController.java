@@ -1,6 +1,7 @@
 package shop.mtcoding.blogv2.board;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,11 +24,20 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private BoardRepository boardRepository;
+
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, Model model) {
         Board board = boardService.상세보기(id); // 엔티티 노출하는 것은 별로 좋지 않음. 나중에 DTO에 옮겨주는 것이 필요
         model.addAttribute("board", board);
         return "board/detail";
+    }
+
+    @GetMapping("/test/board/{id}")
+    public @ResponseBody Board testDetail(@PathVariable Integer id) {
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(id).get(); // 엔티티 노출하는 것은 별로 좋지 않음. 나중에 DTO에 옮겨주는 것이 필요
+        return board;
     }
 
     @GetMapping("/")
@@ -70,7 +80,7 @@ public class BoardController {
     public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
         // 1)where데이터, 2)body, 3)session값 순서로 매개변수 순서 컨벤션
         boardService.게시글수정하기(updateDTO, id);
-        return "redirect:/board" + id;
+        return "redirect:/board/" + id;
     }
 
     @GetMapping("/board/{id}/updateForm")
