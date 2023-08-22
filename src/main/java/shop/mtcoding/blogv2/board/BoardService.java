@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
 import shop.mtcoding.blogv2.user.User;
 
@@ -47,7 +48,7 @@ public class BoardService {
         if (boardOP.isPresent()) {
             return boardOP.get();
         } else {
-            throw new RuntimeException(id + "는 찾을 수 없습니다");
+            throw new MyException(id + "는 찾을 수 없습니다");
         }
     }
 
@@ -59,6 +60,8 @@ public class BoardService {
             board.setTitle(updateDTO.getTitle());
             board.setContent(updateDTO.getContent());
             boardRepository.save(board);
+        } else {
+            throw new MyException(boardId + "는 찾을 수 없습니다");
         }
 
         // Board board = boardRepository.findById(boardId).get();
@@ -77,7 +80,7 @@ public class BoardService {
         try {
             boardRepository.deleteById(6);
         } catch (Exception e) {
-            throw new RuntimeException("6번은 없어요");
+            throw new MyException("6번은 없어요");
         }
     }
 

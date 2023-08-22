@@ -16,12 +16,16 @@ public class ReplyService {
 
     @Transactional
     public void 댓글쓰기(ReplyRequest.SaveDTO saveDTO, Integer sessionUserId) {
+        // insert into reply_tb(comment, board_id, user_id) values(?, ?, ?)
+        // 1. board id가 존재하는지 유무
+        Board board = Board.builder().id(saveDTO.getBoardId()).build();
+        User user = User.builder().id(sessionUserId).build();
         Reply reply = Reply.builder()
                 .comment(saveDTO.getComment())
-                .board(Board.builder().id(saveDTO.getBoardId()).build())
-                .user(User.builder().id(sessionUserId).build())
+                .board(board)
+                .user(user)
                 .build();
-        replyRepository.save(reply);
+        replyRepository.save(reply); // entity : reply 객체
 
     }
 
