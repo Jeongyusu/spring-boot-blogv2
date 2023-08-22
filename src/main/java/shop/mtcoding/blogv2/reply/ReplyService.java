@@ -1,10 +1,13 @@
 package shop.mtcoding.blogv2.reply;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2.board.Board;
 import shop.mtcoding.blogv2.user.User;
 
@@ -37,6 +40,22 @@ public class ReplyService {
             System.out.println("에러 발생");
         }
 
+    }
+
+    @Transactional
+    public void 댓글삭제(Integer id, Integer sessionUserId) {
+        Optional<Reply> replyOP = replyRepository.findById(id);
+
+        if (replyOP.isEmpty()) {
+            throw new MyApiException("삭제할 댓글이 없습니다");
+        }
+
+        Reply reply = replyOP.get();
+        if (reply.getUser().getId() != sessionUserId) {
+            throw new MyApiException("해당 댓글을 삭제할 권한이 없습니다");
+        }
+
+        replyRepository.deleteById(id);
     }
 
 }

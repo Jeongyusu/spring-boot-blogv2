@@ -41,11 +41,13 @@ public class BoardController {
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(defaultValue = "0") Integer page, HttpServletRequest request) {
+    public String index(@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "0") Integer page,
+            HttpServletRequest request) {
         Page<Board> boardPG = boardService.게시글목록보기(page);
         request.setAttribute("boardPG", boardPG);
         request.setAttribute("prevPage", boardPG.getNumber() - 1);
         request.setAttribute("nextPage", boardPG.getNumber() + 1);
+        request.setAttribute("keyword", keyword);
         return "index";
 
         // BoardResponse.ListDTO listDTO = new BoardResponse.ListDTO();

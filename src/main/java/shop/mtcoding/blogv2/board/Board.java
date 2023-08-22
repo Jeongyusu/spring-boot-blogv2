@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.bytebuddy.dynamic.TypeResolutionStrategy.Lazy;
 import shop.mtcoding.blogv2.reply.Reply;
 import shop.mtcoding.blogv2.user.User;
 
@@ -51,7 +51,7 @@ public class Board {
     // OneToMany => Lazy전략(디폴트)
     // JsonIgnoreProperties
     @JsonIgnoreProperties({ "board" })
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Reply> replies = new ArrayList<>();
 
     @CreationTimestamp

@@ -21,9 +21,4 @@ public class BoardRequest {
 
     }
 
-    public static void main(String[] args) {
-        SaveDTO saveDTO = new BoardRequest.SaveDTO();
-
-    }
-
 }

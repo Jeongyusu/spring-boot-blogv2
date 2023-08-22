@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.board.BoardRequest.UpdateDTO;
+import shop.mtcoding.blogv2.reply.Reply;
+import shop.mtcoding.blogv2.reply.ReplyRepository;
 import shop.mtcoding.blogv2.user.User;
 
 /* 1. 비지니스 로직 처리(핵심 로직)
@@ -25,6 +27,9 @@ import shop.mtcoding.blogv2.user.User;
 public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Transactional
     public void 글쓰기(BoardRequest.SaveDTO saveDTO, int sessionUserId) {
@@ -39,6 +44,7 @@ public class BoardService {
     public Page<Board> 게시글목록보기(Integer page) {
         Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
         return boardRepository.findAll(pageable);
+
     }
 
     public Board 상세보기(Integer id) {
@@ -76,7 +82,12 @@ public class BoardService {
     }
 
     @Transactional
-    public void 삭제(Integer boardId) {
+    public void 삭제(Integer id) {
+        List<Reply> replies = replyRepository.findByBoardId(id);
+        for (Reply reply : replies) {
+            reply.setBoard(null);
+            replyRepository.save(reply);
+        }
         try {
             boardRepository.deleteById(6);
         } catch (Exception e) {

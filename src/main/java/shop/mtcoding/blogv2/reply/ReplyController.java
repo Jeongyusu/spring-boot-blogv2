@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.util.Script;
-import shop.mtcoding.blogv2.board.BoardRepository;
-import shop.mtcoding.blogv2.board.BoardService;
 import shop.mtcoding.blogv2.user.User;
 
 @Controller
@@ -24,9 +23,6 @@ public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
-
-    @Autowired
-    private ReplyRepository ReplyRepository;
 
     @PostMapping("/api/reply/save")
     public @ResponseBody ApiUtil<String> save(@RequestBody ReplyRequest.SaveDTO saveDTO) {
@@ -47,6 +43,21 @@ public class ReplyController {
         // 인증체크
         replyService.삭제(id);
         return Script.href("/board/" + boardId);
+
+    }
+
+    @DeleteMapping("/api/reply/{id}/delete")
+    public @ResponseBody ApiUtil<String> delete(@PathVariable Integer id) {
+        // 1.인증체크
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {
+            throw new MyApiException("인증되지 않았습니다");
+        }
+
+        // 2.핵심로직
+        replyService.댓글삭제(id, sessionUser.getId());
+        // 3.응답
+        return new ApiUtil<String>(true, "댓글삭제 완료");
 
     }
 }
