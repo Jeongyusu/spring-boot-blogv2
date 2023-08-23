@@ -11,7 +11,7 @@
   <div class="card">
     <div class="card-header"><b>회원수정을 해주세요</b></div>
     <div class="card-header d-flex justify-content-center">
-      <img id="preview" class="circle_avatar" src="/images/{{ user.picUrl }}">
+      <img id="preview" class="circle_avatar" src="/images/{{user.picUrl }}">
     </div>
     <div class="card-body">
       <form action="/user/update" method="post" enctype="multipart/form-data">
@@ -73,7 +73,7 @@
           let previewEl = document.querySelector("#preview");
           previewEl.setAttribute("src", e2.target.result);
       }
-      reader.readAsDataURL(f); // 파일 읽기
+      reader.readAsDataURL(f); // 파일 읽기 onload()
   }
 </script>
 

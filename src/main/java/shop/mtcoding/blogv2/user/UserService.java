@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import shop.mtcoding.blogv2._core.error.ex.MyException;
+import shop.mtcoding.blogv2._core.util.FileWrite;
 import shop.mtcoding.blogv2._core.vo.MyPath;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
@@ -27,13 +28,16 @@ public class UserService {
     public void 회원가입(JoinDTO joinDTO) {
 
         UUID uuid = UUID.randomUUID(); // 랜덤한 해시값을 만들어줌
-        String filename = uuid + "_" + joinDTO.getPic().getOriginalFilename();
-        System.out.println(MyPath.IMG_PATH + filename);
 
+        // System.out.println(MyPath.IMG_PATH + filename);
+        String filename = "";
         // 프로젝트 실행 파일변경 -> blogv2-1.0.jar
         // 해당 실행파일 경로에 images 폴더가 필요함
-
+        if (joinDTO.getPic().getOriginalFilename().isEmpty()) {
+            filename = uuid + "_" + "basic.jpg";
+        }
         // 이미지 파일을 저장할 경로를 설정
+        filename = uuid + "_" + joinDTO.getPic().getOriginalFilename();
         Path filepath = Paths.get("./images/" + filename);
         try {
             // 이미지 파일을 지정된 경로에 저장
@@ -90,22 +94,7 @@ public class UserService {
     @Transactional
     public User 회원수정(UpdateDTO updateDTO, Integer id) {
 
-        UUID uuid = UUID.randomUUID(); // 랜덤한 해시값을 만들어줌
-        String filename = uuid + "_" + updateDTO.getPic().getOriginalFilename();
-        System.out.println(MyPath.IMG_PATH + filename);
-
-        // 프로젝트 실행 파일변경 -> blogv2-1.0.jar
-        // 해당 실행파일 경로에 images 폴더가 필요함
-
-        // 이미지 파일을 저장할 경로를 설정
-        Path filepath = Paths.get("./images/" + filename);
-        try {
-            // 이미지 파일을 지정된 경로에 저장
-            Files.write(filepath, updateDTO.getPic().getBytes());
-
-        } catch (Exception e) {
-            throw new MyException(e.getMessage());
-        }
+        String filename = FileWrite.fileWrite(updateDTO);
         // 1. 조회 (영속화)
         User user = userRepository.findById(id).get();
 
