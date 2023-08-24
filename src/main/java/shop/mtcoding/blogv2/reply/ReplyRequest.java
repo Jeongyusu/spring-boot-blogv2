@@ -10,7 +10,7 @@ public class ReplyRequest {
     public static class SaveDTO {
         private Integer boardId;
         private String comment;
-        private String bong1111;
+
     }
 
 }
